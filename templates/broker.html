@@ -96,7 +96,8 @@
                     loginUrl = '/zebu/callback';
                     break;
                 case 'zerodha':
-                    loginUrl = 'https://kite.trade/connect/login?api_key={{broker_api_key}}';
+                    // Zerodha Kite Connect v3 login endpoint
+                    loginUrl = 'https://kite.zerodha.com/connect/login?api_key={{broker_api_key}}&v=3';
                     break;
                 case 'paytm':
                     loginUrl = 'https://login.paytmmoney.com/merchant-login?apiKey={{broker_api_key}}&state={default}';
@@ -192,6 +193,10 @@
                             </svg>
                             Connect Account
                         </button>
+                        <p class="text-xs opacity-70 mt-3">
+                            Trouble redirecting? For Zerodha, you can
+                            <a class="link link-primary" href="https://kite.zerodha.com/connect/login?api_key={{broker_api_key}}&v=3">open the login page directly</a>.
+                        </p>
                     </form>
                 </div>
             </div>

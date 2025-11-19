@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenAlgo Health</title>
+  <link rel="stylesheet" href="/static/css/tailwind.css" />
+  <style>
+    .badge { padding: 0.15rem 0.5rem; border-radius: 0.25rem; font-size: 0.85rem; }
+  </style>
+  <script>
+    async function refreshHealth() {
+      const el = (id) => document.getElementById(id);
+      try {
+        const res = await fetch('/api/health', { credentials: 'include' });
+        const data = await res.json();
+
+        el('overall').textContent = data.status.toUpperCase();
+        el('overall').className = 'badge ' + (data.status === 'ok' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700');
+
+        // DB
+        el('db').textContent = data.checks.db.ok ? 'OK' : 'FAIL';
+        el('db').className = 'badge ' + (data.checks.db.ok ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700');
+        el('db_msg').textContent = data.checks.db.message || '';
+
+        // WebSocket
+        el('ws').textContent = data.checks.websocket.ok ? 'OK' : 'FAIL';
+        el('ws').className = 'badge ' + (data.checks.websocket.ok ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700');
+        el('ws_msg').textContent = data.checks.websocket.message || '';
+
+        // Broker
+        el('broker').textContent = data.checks.broker.connected ? (data.checks.broker.broker || 'Connected') : 'Not connected';
+        el('broker').className = 'badge ' + (data.checks.broker.connected ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700');
+        el('broker_msg').textContent = data.checks.broker.message || '';
+
+        // Master Contract
+        el('mc').textContent = data.checks.master_contract.ready ? 'READY' : 'NOT READY';
+        el('mc').className = 'badge ' + (data.checks.master_contract.ready ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700');
+
+        // Version
+        el('version').textContent = data.checks.app?.version ? 'v' + data.checks.app.version : '—';
+      } catch (e) {
+        console.error('Health fetch failed', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      refreshHealth();
+      setInterval(refreshHealth, 5000);
+    });
+  </script>
+  
+</head>
+<body class="bg-gray-50">
+  <div class="max-w-3xl mx-auto p-6">
+    <h1 class="text-2xl font-semibold mb-4">OpenAlgo Health</h1>
+    <div class="mb-6">
+      Overall: <span id="overall" class="badge bg-gray-100 text-gray-700">—</span>
+      <span id="version" class="ml-2 text-sm text-gray-500"></span>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3">
+      <div class="p-4 bg-white rounded shadow flex items-center justify-between">
+        <div>
+          <div class="font-medium">Database</div>
+          <div id="db_msg" class="text-sm text-gray-500"></div>
+        </div>
+        <span id="db" class="badge bg-gray-100 text-gray-700">—</span>
+      </div>
+
+      <div class="p-4 bg-white rounded shadow flex items-center justify-between">
+        <div>
+          <div class="font-medium">WebSocket Proxy</div>
+          <div id="ws_msg" class="text-sm text-gray-500"></div>
+        </div>
+        <span id="ws" class="badge bg-gray-100 text-gray-700">—</span>
+      </div>
+
+      <div class="p-4 bg-white rounded shadow flex items-center justify-between">
+        <div>
+          <div class="font-medium">Broker</div>
+          <div id="broker_msg" class="text-sm text-gray-500"></div>
+        </div>
+        <span id="broker" class="badge bg-gray-100 text-gray-700">—</span>
+      </div>
+
+      <div class="p-4 bg-white rounded shadow flex items-center justify-between">
+        <div>
+          <div class="font-medium">Master Contract</div>
+          <div class="text-sm text-gray-500">Readiness to trade</div>
+        </div>
+        <span id="mc" class="badge bg-gray-100 text-gray-700">—</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

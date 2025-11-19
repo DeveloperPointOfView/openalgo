@@ -11,6 +11,7 @@ OpenAlgo is built by traders, for traders. We believe in democratizing algorithm
 Before diving in, here's what powers OpenAlgo:
 
 ### Backend
+
 - **Python 3.12+** - Core programming language
 - **Flask** - Web framework
 - **Flask-RESTX** - RESTful API with auto-documentation
@@ -18,11 +19,13 @@ Before diving in, here's what powers OpenAlgo:
 - **Flask-SocketIO** - Real-time WebSocket connections
 
 ### Frontend
+
 - **Jinja2** - Templating engine
 - **TailwindCSS** - Utility-first CSS framework
 - **DaisyUI** - Component library
 
 ### Trading & Data
+
 - **pandas** - Data manipulation
 - **numpy** - Numerical computing
 - **pandas-ta** - Technical analysis
@@ -41,21 +44,24 @@ Before diving in, here's what powers OpenAlgo:
 ### Setting Up Your Development Environment
 
 1. **Fork the Repository**
-   
+
    Click the "Fork" button on the [OpenAlgo GitHub repository](https://github.com/marketcalls/openalgo) to create your own copy.
 
 2. **Clone Your Fork**
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/openalgo.git
    cd openalgo
    ```
 
 3. **Add Upstream Remote**
+
    ```bash
    git remote add upstream https://github.com/marketcalls/openalgo.git
    ```
 
 4. **Install Python Dependencies**
+
    ```bash
    # Create a virtual environment
    python -m venv venv
@@ -71,11 +77,13 @@ Before diving in, here's what powers OpenAlgo:
    ```
 
 5. **Install Node Dependencies**
+
    ```bash
    npm install
    ```
 
 6. **Configure Environment**
+
    ```bash
    # Copy the sample environment file
    cp .sample.env .env
@@ -85,6 +93,7 @@ Before diving in, here's what powers OpenAlgo:
    ```
 
 7. **Build CSS**
+
    ```bash
    # For development (with watch mode)
    npm run dev
@@ -94,6 +103,7 @@ Before diving in, here's what powers OpenAlgo:
    ```
 
 8. **Run the Application**
+
    ```bash
    python app.py
    ```
@@ -103,6 +113,7 @@ Before diving in, here's what powers OpenAlgo:
 ## 🔧 Development Workflow
 
 ### 1. Create a Feature Branch
+
 ```bash
 # Update your main branch
 git checkout main
@@ -146,12 +157,14 @@ npm run build
 **Note**: The compiled CSS files are in `/static/css/`. Never edit these directly - always modify the source in `/src/css/styles.css` and Tailwind classes in templates.
 
 ### 4. Commit Your Changes
+
 ```bash
 git add .
 git commit -m "feat: add support for new broker XYZ"
 ```
 
 We follow conventional commits:
+
 - `feat:` for new features
 - `fix:` for bug fixes
 - `docs:` for documentation
@@ -161,6 +174,7 @@ We follow conventional commits:
 - `chore:` for maintenance tasks
 
 ### 5. Push to Your Fork
+
 ```bash
 git push origin feature/your-feature-name
 ```
@@ -216,28 +230,34 @@ openalgo/
 When working on the user interface:
 
 ### CSS Workflow
+
 1. **Never edit** `/static/css/main.css` directly - it's auto-generated
 2. **Make changes** in:
    - `/src/css/styles.css` for custom CSS
    - HTML templates in `/templates/` for Tailwind/DaisyUI classes
 3. **Run the compiler**:
+
    ```bash
    # Development mode - watches for changes
    npm run dev
    
    # Keep this running in a separate terminal while developing
    ```
+
 4. **Before committing**, run production build:
+
    ```bash
    npm run build
    ```
 
 ### Using DaisyUI Components
+
 - Check [DaisyUI documentation](https://daisyui.com/components/) for available components
 - The project uses three themes: light, dark, and garden (for analyzer)
 - Use theme-aware classes like `bg-base-100` instead of hardcoded colors
 
 ### Tailwind Tips
+
 - Use utility classes directly in templates
 - Custom styles go in `/src/css/styles.css`
 - The Tailwind config is in `tailwind.config.js`
@@ -288,18 +308,21 @@ After submitting a PR:
 ## 💡 Best Practices
 
 ### Security
+
 - Never commit sensitive data (API keys, passwords)
 - Validate all user inputs
 - Use parameterized queries for database operations
 - Follow OWASP guidelines for web security
 
 ### Performance
+
 - Optimize database queries
 - Use caching where appropriate
 - Minimize API calls to external services
 - Profile code for performance bottlenecks
 
 ### Code Quality
+
 - Write self-documenting code
 - Keep functions small and focused
 - Use meaningful variable names
@@ -320,6 +343,7 @@ Found a bug? Here's how to report it:
 ## 🌟 Recognition
 
 We value all contributions! Contributors will be:
+
 - Listed in our contributors section
 - Mentioned in release notes
 - Part of the OpenAlgo community
@@ -332,7 +356,7 @@ Need assistance? We're here to help:
 - **GitHub Discussions**: Ask questions in the Discussions tab
 - **Documentation**: Check [docs.openalgo.in](https://docs.openalgo.in)
 
-## 🎉 Thank You!
+## 🎉 Thank You
 
 Thank you for contributing to OpenAlgo! Your efforts help democratize algorithmic trading and empower traders worldwide. Every line of code, documentation improvement, and bug report makes a difference.
 

@@ -4,40 +4,83 @@
 
 {% block head %}
 <script>
-    async function login(event) {
-        event.preventDefault();
-
+    // Use DOMContentLoaded to ensure DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, attaching login handler');
         const form = document.getElementById('loginForm');
-        const formData = new FormData(form);
         const loginStatus = document.getElementById('loginStatus');
         
-        loginStatus.classList.remove('alert-error', 'alert-success', 'hidden');
-        loginStatus.classList.add('alert-info');
-        loginStatus.querySelector('span').textContent = 'Logging in...';
+        if (!form) {
+            console.error('Login form not found!');
+            return;
+        }
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log('Login form submitted, preventing default');
+            
+            loginStatus.classList.remove('alert-error', 'alert-success', 'hidden');
+            loginStatus.classList.add('alert-info');
+            loginStatus.querySelector('span').textContent = 'Logging in...';
 
-        try {
-            const response = await fetch('/auth/login', {
+            const formData = new FormData(form);
+
+            fetch('/auth/login', {
                 method: 'POST',
                 body: formData
-            });
-            const data = await response.json();
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                const contentType = response.headers.get('content-type') || '';
+                if (contentType.includes('application/json')) {
+                    return response.json();
+                } else {
+                    throw new Error('Non-JSON response: ' + response.status);
+                }
+            })
+            .then(data => {
+                console.log('Response data:', data);
+                if (data.status === 'error') {
+                    loginStatus.classList.remove('alert-info');
+                    loginStatus.classList.add('alert-error');
+                    loginStatus.querySelector('span').textContent = data.message || 'Login failed';
+                    return;
+                }
 
-            if (data.status === 'error') {
-                loginStatus.classList.remove('alert-info');
-                loginStatus.classList.add('alert-error');
-                loginStatus.querySelector('span').textContent = data.message || 'Login failed';
-            } else {
+                // Success
                 loginStatus.classList.remove('alert-info');
                 loginStatus.classList.add('alert-success');
-                loginStatus.querySelector('span').textContent = 'Login successful';
-                window.location.href = '/auth/broker';
-            }
-        } catch (error) {
-            loginStatus.classList.remove('alert-info');
-            loginStatus.classList.add('alert-error');
-            loginStatus.querySelector('span').textContent = 'Login failed: Please try again';
-        }
-    }
+                const nextUrl = data && data.next ? data.next : '/auth/broker';
+                console.log('Login success, redirecting to:', nextUrl);
+                
+                // Show manual link as well
+                loginStatus.querySelector('span').innerHTML = 
+                    'Login successful! Redirecting... <br><a href="' + nextUrl + '" class="link link-primary">Click here if not redirected</a>';
+                
+                // Try multiple redirect methods for maximum compatibility
+                setTimeout(() => {
+                    console.log('Redirecting now...');
+                    try {
+                        window.location.replace(nextUrl); // Use replace instead of href
+                    } catch (e) {
+                        console.error('Redirect failed:', e);
+                        window.location.href = nextUrl; // Fallback
+                    }
+                }, 800);
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                loginStatus.classList.remove('alert-info');
+                loginStatus.classList.add('alert-error');
+                loginStatus.querySelector('span').textContent = 'Login failed: Please try again';
+            });
+            
+            return false;
+        });
+        
+        console.log('Login handler attached successfully');
+    });
 </script>
 {% endblock %}
 
@@ -52,7 +95,7 @@
                         <img class="h-20 w-auto" src="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}" alt="OpenAlgo">
                     </div>
 
-                    <form id="loginForm" onsubmit="login(event)" class="space-y-6">
+                    <form id="loginForm" method="POST" action="/auth/login" class="space-y-6">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <div class="form-control w-full">
                             <label class="label">

@@ -19,6 +19,7 @@ OpenAlgo is an open-source, Flask-based Python application designed to bridge th
 For detailed installation instructions, please refer to [INSTALL.md](https://docs.openalgo.in/getting-started)
 
 ## What is OpenAlgo?
+
 [![What is OpenAlgo](https://img.youtube.com/vi/kAS3jTb3OkI/0.jpg)](https://www.youtube.com/watch?v=kAS3jTb3OkI "Watch the OpenAlgo Tutorial Video")
 
 ## Supported Brokers
@@ -36,7 +37,7 @@ For detailed installation instructions, please refer to [INSTALL.md](https://doc
 - **Fyers**
 - **IBulls**
 - **Indmoney**
-- **Kotak** 
+- **Kotak**
 - **Motilal Oswal**
 - **Paytm**
 - **Pocketful**
@@ -50,6 +51,7 @@ For detailed installation instructions, please refer to [INSTALL.md](https://doc
 ## Features
 
 ### WebSocket Architecture with ZMQ Integration
+
 - **Unified WebSocket Proxy Server**: Central WebSocket server (port 8765) that handles client authentication and subscription management
 - **ZeroMQ (ZMQ) Message Bus**: High-performance message queue for real-time market data distribution
   - Publisher-Subscriber pattern for efficient data broadcasting
@@ -66,9 +68,11 @@ For detailed installation instructions, please refer to [INSTALL.md](https://doc
   - Auto-reconnection and connection management
 
 ### Unified API Layer (`/api/v1/`)
+
 OpenAlgo provides a RESTful API with standardized endpoints across all supported brokers:
 
 #### Order Management APIs
+
 - **`/api/v1/placeorder`**: Place regular orders with standard parameters
 - **`/api/v1/placesmartorder`**: Smart order routing with advanced logic
 - **`/api/v1/modifyorder`**: Modify existing orders
@@ -79,6 +83,7 @@ OpenAlgo provides a RESTful API with standardized endpoints across all supported
 - **`/api/v1/splitorder`**: Split large orders into smaller chunks
 
 #### Account & Portfolio APIs
+
 - **`/api/v1/funds`**: Get account funds and margins
 - **`/api/v1/orderbook`**: Retrieve all orders for the day
 - **`/api/v1/tradebook`**: Get executed trades
@@ -88,12 +93,14 @@ OpenAlgo provides a RESTful API with standardized endpoints across all supported
 - **`/api/v1/orderstatus`**: Get real-time order status
 
 #### Market Data APIs
+
 - **`/api/v1/quotes`**: Get real-time quotes for symbols
 - **`/api/v1/history`**: Fetch historical OHLC data
 - **`/api/v1/depth`**: Get market depth/order book
 - **`/api/v1/ticker`**: Stream real-time price updates
 
 #### Utility APIs
+
 - **`/api/v1/search`**: Search for symbols across exchanges
 - **`/api/v1/symbol`**: Get symbol details and mappings
 - **`/api/v1/expiry`**: Get option expiry dates
@@ -102,7 +109,9 @@ OpenAlgo provides a RESTful API with standardized endpoints across all supported
 - **`/api/v1/ping`**: Test API connectivity and authentication
 
 ### Common Broker Integration Pattern
+
 Each broker integration follows a standardized structure:
+
 - **Authentication API** (`auth_api.py`): Handle login and session management
 - **Order API** (`order_api.py`): Place, modify, cancel orders and manage positions
 - **Data API** (`data.py`): Fetch quotes, historical data, and market information
@@ -110,7 +119,7 @@ Each broker integration follows a standardized structure:
 - **Symbol Mapping** (`transform_data.py`): Convert between OpenAlgo and broker formats
 - **WebSocket Streaming** (`broker_adapter.py`): Real-time data streaming
 
-- **ChartInk Platform Integration**: 
+- **ChartInk Platform Integration**:
   - Direct integration with ChartInk for strategy execution
   - Automated scanning and trading based on ChartInk signals
   - Real-time strategy monitoring and management
@@ -137,7 +146,7 @@ Each broker integration follows a standardized structure:
     - IST timezone support for accurate time display
   For detailed information about monitoring tools, see [traffic.md](docs/traffic.md)
 
-- **Modern UI with DaisyUI**: 
+- **Modern UI with DaisyUI**:
   - Sleek and responsive interface built with DaisyUI components
   - Three distinct themes:
     - Light theme for normal mode
@@ -173,6 +182,7 @@ Each broker integration follows a standardized structure:
 - **Secure and Reliable**: With a focus on security and reliability, OpenAlgo provides a dependable platform for your algotrading activities, safeguarding your data and trades.
 
 ### Rate Limiting Controls
+
 OpenAlgo implements comprehensive rate limiting to protect against abuse and ensure fair usage:
 
 - **Configurable Rate Limits**: All rate limits are environment variable controlled
@@ -191,6 +201,7 @@ OpenAlgo implements comprehensive rate limiting to protect against abuse and ens
 ### Security Features
 
 #### Browser-Level Security
+
 - **Content Security Policy (CSP)**: Configurable CSP headers to prevent XSS attacks
   - Customizable directives via environment variables
   - Default restrictive policies for scripts, styles, and resources
@@ -203,11 +214,12 @@ OpenAlgo implements comprehensive rate limiting to protect against abuse and ens
 - **Session Security**: Secure session management with proper cookie settings
 
 #### Database-Level Security
+
 - **Password Hashing**: Uses Argon2 (winner of Password Hashing Competition) for secure password storage
 - **Token Encryption**: Auth tokens encrypted using Fernet symmetric encryption
   - PBKDF2 key derivation for encryption keys
   - Automatic encryption/decryption of sensitive tokens
-- **API Key Security**: 
+- **API Key Security**:
   - Hashed storage using Argon2 with pepper
   - Encrypted storage for retrieval
   - Time-based caching with TTL
@@ -215,9 +227,11 @@ OpenAlgo implements comprehensive rate limiting to protect against abuse and ens
 - **Connection Pooling**: Optimized database connections with proper pool management
 
 ### API Analyzer
+
 The API Analyzer is a comprehensive testing and validation tool that provides:
 
 #### For Traders
+
 - **Risk-Free Testing**: Test all trading operations without actual execution
 - **Real-Time Validation**: Instant feedback on order parameters and strategy logic
 - **Strategy Monitoring**: Track multiple strategies simultaneously
@@ -225,6 +239,7 @@ The API Analyzer is a comprehensive testing and validation tool that provides:
 - **Cost Savings**: Avoid trading errors and optimize parameters without financial risk
 
 #### For Developers
+
 - **Complete API Testing**: Test all endpoints with detailed request/response analysis
 - **Validation Engine**: Automatic parameter validation, symbol checks, and range verification
 - **WebSocket Monitoring**: Real-time event tracking and debugging
@@ -234,6 +249,7 @@ The API Analyzer is a comprehensive testing and validation tool that provides:
 The analyzer supports all major operations: Place Order, Smart Orders, Modifications, Cancellations, and Position Management. See [Analyzer.md](docs/Analyzer.md) for detailed documentation.
 
 ### OpenAlgo FOSS Universe
+
 OpenAlgo is part of a larger ecosystem of open-source trading tools. The Mini FOSS Universe includes:
 
 - **OpenAlgo Core**: Python Flask + Tailwind + DaisyUI (this repository)
@@ -250,11 +266,13 @@ OpenAlgo is part of a larger ecosystem of open-source trading tools. The Mini FO
 Built for traders, by traders - making algo trading more accessible, powerful, and open for everyone. Visit [docs.openalgo.in/mini-foss-universe](https://docs.openalgo.in/mini-foss-universe) for more details.
 
 ### Local MCP (Model Context Protocol) Integration
+
 OpenAlgo includes native MCP server capabilities, enabling AI assistants to execute trades and manage portfolios directly:
 
 #### Key Features
+
 - **AI-Powered Trading**: Connect AI assistants like Claude Desktop, Cursor, or Windsurf to execute trades
-- **Full Trading Capabilities**: 
+- **Full Trading Capabilities**:
   - Order Management: Place, modify, cancel orders (market/limit/stop-loss)
   - Smart Orders: Automatic position sizing and basket orders
   - Position Management: Close positions, track P&L
@@ -263,6 +281,7 @@ OpenAlgo includes native MCP server capabilities, enabling AI assistants to exec
 - **Local & Secure**: Runs locally with your OpenAlgo instance
 
 #### Available MCP Tools
+
 - **Order Operations**: `place_order`, `place_smart_order`, `place_basket_order`, `modify_order`, `cancel_order`
 - **Position Tracking**: `get_open_position`, `get_position_book`, `close_all_positions`
 - **Market Data**: `get_quote`, `get_market_depth`, `get_historical_data`
@@ -270,6 +289,7 @@ OpenAlgo includes native MCP server capabilities, enabling AI assistants to exec
 - **Instrument Search**: `search_instruments`, `get_symbol_info`, `get_expiry_dates`
 
 #### Quick Setup
+
 1. Start your OpenAlgo server
 2. Generate an API key from Settings → API Keys
 3. Configure your AI assistant with the MCP server path and API key
@@ -284,6 +304,7 @@ For detailed documentation on OpenAlgo, including setup guides, API references, 
 ### Minimum Hardware Requirements
 
 To run OpenAlgo we recommend:
+
 - 2GB RAM or 0.5GB RAM with 2GB of Swap Memory
 - 1GB disk space
 - 1vCPU
@@ -325,3 +346,59 @@ AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS.
 ## Support
 
 For any questions not covered by the documentation or for further information about OpenAlgo, join our [Discord server](https://discord.com/invite/UPh7QPsNhP).
+
+## Project Structure
+
+This repository follows a structured organization for better maintainability:
+
+```
+openalgo/
+├── src/openalgo/           # Main Python package
+│   ├── app.py             # Flask application entrypoint
+│   ├── config.py          # Central configuration management
+│   ├── extensions.py      # SocketIO and other extensions
+│   ├── blueprints/        # Flask blueprints (API endpoints)
+│   ├── broker/            # Broker integration adapters
+│   ├── database/          # Database models and helpers
+│   ├── mcp/               # MCP (Model Context Protocol) integration
+│   ├── restx_api/         # REST API definitions
+│   ├── sandbox/           # Sandbox environment
+│   ├── services/          # Background services
+│   ├── strategies/        # Trading strategies
+│   ├── test/              # Unit and integration tests
+│   ├── utils/             # Utility functions
+│   └── websocket_proxy/   # WebSocket proxy server
+├── frontend/              # Frontend build tools and assets
+│   ├── package.json       # Node.js dependencies
+│   ├── tailwind.config.mjs # Tailwind CSS configuration
+│   └── postcss.config.mjs # PostCSS configuration
+├── docs/                  # Documentation
+│   ├── setup/             # Setup and installation guides
+│   └── guides/            # Integration and usage guides
+├── scripts/               # Utility scripts
+│   ├── start.sh           # Production startup script
+│   └── start-docker.sh    # Docker startup script
+├── var/                   # Generated files (not in version control)
+│   ├── db/                # SQLite databases
+│   └── log/               # Application logs
+├── pyproject.toml         # Python project configuration
+├── Dockerfile             # Docker container definition
+├── docker-compose.yaml    # Docker Compose configuration
+└── sample.env             # Environment variables template
+```
+
+### Key Directories
+
+- **`src/openalgo/`**: Core application code organized as a proper Python package
+- **`frontend/`**: Node.js build tools for frontend assets (Tailwind CSS, etc.)
+- **`docs/`**: All documentation organized by category
+- **`scripts/`**: Utility scripts for development and deployment
+- **`var/`**: Generated files excluded from version control (databases, logs)
+
+### Development Workflow
+
+1. **Backend Development**: Work in `src/openalgo/` with proper package imports
+2. **Frontend Assets**: Build frontend assets from `frontend/` directory
+3. **Testing**: Run tests with `pytest` from the project root
+4. **Configuration**: Use `src/openalgo/config.py` for all environment settings
+5. **Generated Files**: Databases and logs are stored in `var/` and ignored by git

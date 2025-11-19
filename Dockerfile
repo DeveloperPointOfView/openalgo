@@ -40,7 +40,7 @@ RUN mkdir -p /app/log /app/log/strategies /app/db /app/strategies /app/strategie
     chown -R appuser:appuser /app/log /app/db /app/strategies /app/keys /app/logs
 
 # 4 – entrypoint script and fix line endings
-COPY --chown=appuser:appuser start.sh /app/start.sh
+COPY --chown=appuser:appuser scripts/start.sh /app/start.sh
 RUN sed -i 's/\r$//' /app/start.sh && chmod +x /app/start.sh
 
 # ---- RUNTIME ENVS --------------------------------------------------------- #

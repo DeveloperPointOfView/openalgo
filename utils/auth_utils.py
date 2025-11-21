@@ -63,10 +63,14 @@ def mask_api_credential(credential, show_chars=4):
     
     return credential[:show_chars] + '*' * (len(credential) - show_chars)
 
-def async_master_contract_download(broker):
+def async_master_contract_download(broker, username=None):
     """
     Asynchronously download the master contract and emit a WebSocket event upon completion,
     with the 'broker' parameter specifying the broker for which to download the contract.
+    
+    Args:
+        broker (str): broker slug
+        username (str | None): user whose auth token should be used
     """
     # Update status to downloading
     update_status(broker, 'downloading', 'Master contract download in progress')
@@ -84,7 +88,7 @@ def async_master_contract_download(broker):
 
     # Use the dynamically imported module's master_contract_download function
     try:
-        master_contract_status = master_contract_module.master_contract_download()
+        master_contract_status = master_contract_module.master_contract_download(username=username)
         
         # Most brokers return the socketio.emit result, we need to check completion
         # by looking at the module's actual completion
@@ -148,7 +152,7 @@ def handle_auth_success(auth_token, user_session_key, broker, feed_token=None, u
         logger.info(f"Database record upserted with ID: {inserted_id}")
         # Initialize master contract status for this broker
         init_broker_status(broker)
-        thread = Thread(target=async_master_contract_download, args=(broker,))
+        thread = Thread(target=async_master_contract_download, args=(broker, user_session_key))
         thread.start()
         return redirect(url_for('dashboard_bp.dashboard'))
     else:

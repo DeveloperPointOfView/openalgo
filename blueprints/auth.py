@@ -39,7 +39,7 @@ def login():
     if session.get('logged_in'):
         return redirect(url_for('dashboard_bp.dashboard'))
 
-    if request.method == 'GET':
+    if request.method in ['GET', 'HEAD']:
         return render_template('login.html')
     elif request.method == 'POST':
         username = request.form['username']

@@ -32,8 +32,13 @@ def dashboard():
         if api_key:
             success, response, status_code = get_funds(api_key=api_key)
         else:
-            logger.error("No API key found for analyze mode")
-            return "API key required for analyze mode", 400
+            logger.warning("Analyze mode enabled but API key missing; returning demo balances only")
+            margin_data = {
+                'availablecash': '0.00',
+                'collateral': '0.00',
+                'utiliseddebits': '0.00'
+            }
+            return render_template('dashboard.html', margin_data=margin_data)
     else:
         # Use live broker
         success, response, status_code = get_funds(auth_token=AUTH_TOKEN, broker=broker)

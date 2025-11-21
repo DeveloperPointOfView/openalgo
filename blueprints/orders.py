@@ -146,8 +146,10 @@ def orderbook():
         if api_key:
             success, response, status_code = get_orderbook(api_key=api_key)
         else:
-            logger.error("No API key found for analyze mode")
-            return "API key required for analyze mode", 400
+            logger.warning("Analyze mode enabled but API key missing; showing empty orderbook (sandbox)")
+            order_data = []
+            order_stats = {}
+            return render_template('orderbook.html', order_data=order_data, order_stats=order_stats)
     else:
         # Use live broker
         success, response, status_code = get_orderbook(auth_token=auth_token, broker=broker)
@@ -187,8 +189,9 @@ def tradebook():
         if api_key:
             success, response, status_code = get_tradebook(api_key=api_key)
         else:
-            logger.error("No API key found for analyze mode")
-            return "API key required for analyze mode", 400
+            logger.warning("Analyze mode enabled but API key missing; showing empty tradebook (sandbox)")
+            trade_data = []
+            return render_template('tradebook.html', trade_data=trade_data)
     else:
         # Use live broker
         success, response, status_code = get_tradebook(auth_token=auth_token, broker=broker)
@@ -226,8 +229,9 @@ def positions():
         if api_key:
             success, response, status_code = get_positionbook(api_key=api_key)
         else:
-            logger.error("No API key found for analyze mode")
-            return "API key required for analyze mode", 400
+            logger.warning("Analyze mode enabled but API key missing; showing empty positions (sandbox)")
+            position_data = []
+            return render_template('positions.html', position_data=position_data)
     else:
         # Use live broker
         success, response, status_code = get_positionbook(auth_token=auth_token, broker=broker)
@@ -265,8 +269,10 @@ def holdings():
         if api_key:
             success, response, status_code = get_holdings(api_key=api_key)
         else:
-            logger.error("No API key found for analyze mode")
-            return "API key required for analyze mode", 400
+            logger.warning("Analyze mode enabled but API key missing; showing empty holdings (sandbox)")
+            holdings_data = []
+            portfolio_stats = {}
+            return render_template('holdings.html', holdings_data=holdings_data, portfolio_stats=portfolio_stats)
     else:
         # Use live broker
         success, response, status_code = get_holdings(auth_token=auth_token, broker=broker)

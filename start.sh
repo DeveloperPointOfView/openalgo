@@ -2,6 +2,12 @@
 
 echo "[OpenAlgo] Starting up..."
 
+# Ensure required environment file is present (app exits without it)
+if [ ! -f "/app/.env" ]; then
+    echo "[OpenAlgo] ERROR: /app/.env not found. Mount your .env (e.g. -v \"$(pwd)/.env:/app/.env:ro\" or use docker-compose) and restart."
+    exit 1
+fi
+
 # Try to create directories, but don't fail if they already exist or can't be created
 # This handles both mounted volumes and permission issues
 for dir in db log log/strategies strategies strategies/scripts keys; do
@@ -51,4 +57,6 @@ exec /app/.venv/bin/gunicorn \
     --timeout 120 \
     --graceful-timeout 30 \
     --log-level warning \
+    --limit-request-fields 200 \
+    --limit-request-field_size 32768 \
     app:app

@@ -80,7 +80,7 @@ def copy_from_dataframe(df):
         db_session.rollback()
 
 
-def download_csv_zerodha_data(output_path):
+def download_csv_zerodha_data(output_path, username=None):
     """
     Downloads the CSV file from Zerodha using Auth Credentials, saves it to the specified path and convert.
     to pandas dataframe using shared httpx client with connection pooling.
@@ -92,8 +92,10 @@ def download_csv_zerodha_data(output_path):
         pd.DataFrame: DataFrame containing the downloaded instrument data
     """
     try:
-        login_username = os.getenv('LOGIN_USERNAME')
+        login_username = username or os.getenv('LOGIN_USERNAME')
         AUTH_TOKEN = get_auth_token(login_username)
+        if not AUTH_TOKEN:
+            raise Exception("Zerodha auth token not found. Please login with Zerodha first.")
         
         # Get the shared httpx client with connection pooling
         client = get_httpx_client()
@@ -249,13 +251,13 @@ def delete_zerodha_temp_data(output_path):
         logger.error(f"An error occurred while deleting the file: {e}")
 
 
-def master_contract_download():
+def master_contract_download(username=None):
     logger.info("Downloading Master Contract")
     
 
     output_path = 'tmp/zerodha.csv'
     try:
-        download_csv_zerodha_data(output_path)
+        download_csv_zerodha_data(output_path, username=username)
         token_df = process_zerodha_csv(output_path)
         delete_zerodha_temp_data(output_path)
         #token_df['token'] = pd.to_numeric(token_df['token'], errors='coerce').fillna(-1).astype(int)

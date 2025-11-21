@@ -7,7 +7,7 @@ from openalgo.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
-def load_broker_auth_functions(broker_directory='broker'):
+def load_broker_auth_functions(broker_directory='broker', module_prefix='openalgo.broker'):
     auth_functions = {}
     broker_path = os.path.join(current_app.root_path, broker_directory)
     # List all items in broker directory and filter out __pycache__ and non-directories
@@ -17,7 +17,7 @@ def load_broker_auth_functions(broker_directory='broker'):
     for broker_name in broker_names:
         try:
             # Construct module name and import the module
-            module_name = f"{broker_directory}.{broker_name}.api.auth_api"
+            module_name = f"{module_prefix}.{broker_name}.api.auth_api"
             auth_module = importlib.import_module(module_name)
             # Retrieve the authenticate_broker function
             auth_function = getattr(auth_module, 'authenticate_broker', None)

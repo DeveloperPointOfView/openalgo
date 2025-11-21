@@ -305,7 +305,7 @@ def create_app():
 def setup_environment(app):
     with app.app_context():
         #load broker plugins
-        app.broker_auth_functions = load_broker_auth_functions()
+        app.broker_auth_functions = load_broker_auth_functions(broker_directory='broker', module_prefix='openalgo.broker')
 
         # Initialize all databases in parallel for faster startup
         from concurrent.futures import ThreadPoolExecutor, as_completed

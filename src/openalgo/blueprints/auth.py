@@ -40,7 +40,7 @@ def login():
     if session.get('logged_in'):
         return redirect(url_for('dashboard_bp.dashboard'))
 
-    if request.method == 'GET':
+    if request.method in ['GET', 'HEAD']:
         return render_template('login.html')
     elif request.method == 'POST':
         logger.info(f"Login POST received from {request.remote_addr}")
